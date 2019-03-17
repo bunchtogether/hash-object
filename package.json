@@ -1,10 +1,7 @@
 {
   "name": "@bunchtogether/hash-object",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
-  "browser": {
-    "dist/index.js": "dist/index-browser.js"
-  },
   "repository": "git@github.com:bunchtogether/hash-object",
   "author": "John Wehr <johnwehr@gmail.com>",
   "license": "MIT",
@@ -69,8 +66,6 @@
     "uuid": "^3.3.2"
   },
   "dependencies": {
-    "buffer": "^5.2.1",
-    "farmhash": "^2.1.0",
-    "farmhash.wasm": "^0.1.0"
+    "farmhash": "^2.1.0"
   }
 }

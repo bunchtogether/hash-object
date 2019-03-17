@@ -1,5 +1,4 @@
 const uuid = require('uuid');
-const { cloneDeepWith } = require('lodash');
 
 const generatePrimitive = module.exports.generatePrimitive = () => {
   switch (Math.floor(Math.random() * 8)) {
@@ -42,7 +41,7 @@ const generateNativeObject = module.exports.generateNativeObject = () => {
 };
 
 const generateObject = module.exports.generateObject = (depth = 0) => {
-  const propertyCount = Math.ceil(Math.random() * 5);
+  const propertyCount = Math.ceil(Math.random() * 10);
   const o = {};
   for (let i = 0; i < propertyCount; i += 1) {
     o[uuid.v4()] = generate(depth + 1);
@@ -52,27 +51,9 @@ const generateObject = module.exports.generateObject = (depth = 0) => {
 
 const generateArray = module.exports.generateArray = (depth = 0) => {
   const o = [];
-  const length = Math.ceil(Math.random() * 5);
+  const length = Math.ceil(Math.random() * 20);
   for (let i = 0; i < length; i += 1) {
     o.push(generate(depth + 1));
-  }
-  return o;
-};
-
-const generateMap = module.exports.generateMap = (depth = 0) => {
-  const propertyCount = Math.ceil(Math.random() * 5);
-  const o = new Map();
-  for (let i = 0; i < propertyCount; i += 1) {
-    o.set(generatePrimitive(), generate(depth + 1));
-  }
-  return o;
-};
-
-const generateSet = module.exports.generateSet = (depth = 0) => {
-  const o = new Set();
-  const length = Math.ceil(Math.random() * 5);
-  for (let i = 0; i < length; i += 1) {
-    o.add(generate(depth + 1));
   }
   return o;
 };
@@ -108,31 +89,11 @@ const generateTypedArray = module.exports.generateTypedArray = () => {
   throw new Error('Incorrect number of cases');
 };
 
-class ExampleClass {
-  constructor(x, y, z) {
-    this.x = x;
-    this.y = y;
-    this.z = z;
-  }
-  someMethod() {
-    return true;
-  }
-}
-
-const generateClassInstance = module.exports.generateClassInstance = (depth = 0) => new ExampleClass(generate(depth + 1), generate(depth + 1), generate(depth + 1));
-
-const cloneDeep = module.exports.cloneDeep = (o) => cloneDeepWith(o, (value) => { // eslint-disable-line consistent-return
-  if (value instanceof ExampleClass) {
-    return new ExampleClass(cloneDeep(value.x), cloneDeep(value.y), cloneDeep(value.z));
-  }
-});
-
-
 const generate = module.exports.generate = (depth = 0) => {
-  if (depth > 3) {
+  if (depth > 2) {
     return generatePrimitive();
   }
-  switch (Math.floor(Math.random() * 8)) {
+  switch (Math.floor(Math.random() * 5)) {
     case 0:
       return generateTypedArray();
     case 1:
@@ -143,12 +104,6 @@ const generate = module.exports.generate = (depth = 0) => {
       return generateObject(depth);
     case 4:
       return generateArray(depth);
-    case 5:
-      return generateMap(depth);
-    case 6:
-      return generateSet(depth);
-    case 7:
-      return generateClassInstance(depth);
     default:
       break;
   }
