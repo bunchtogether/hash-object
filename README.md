@@ -1,6 +1,6 @@
 # Hash Object
 
-Performance object hashing. Supports native maps, sets, classes, and typed arrays.
+Performant object hashing. Supports native maps, sets, classes, and typed arrays.
 
 ```js
 const { hash64, hash32 } = require('@bunchtogether/hash-object');
@@ -31,7 +31,7 @@ const b = hash32([1,2,3]);
 * Time: 2930ms (+350.77%)
 * Heap: 127Mb (+5.58%)
 
-[@bunchtogether/object-hash]()
+[@bunchtogether/object-hash](https://www.npmjs.com/package/@bunchtogether/hash-object)
 * Time: 650ms (+0%)
 * Heap: 130Mb (+8.44%)
 
@@ -49,7 +49,7 @@ const b = hash32([1,2,3]);
 * Time: 331ms (+81.87%)
 * Heap: 155Mb (+6.25%)
 
-[@bunchtogether/object-hash]
+[@bunchtogether/object-hash](https://www.npmjs.com/package/@bunchtogether/hash-object)
 * Time: 182ms (+0%)
 * Heap: 152Mb (+4.29%)
 
