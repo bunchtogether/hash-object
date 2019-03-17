@@ -1,13 +1,14 @@
-//      
+// @flow
 
-const { hash64, hash32 } = require('farmhash');
+const { hash64, hash32 } = require('farmhash.wasm');
+const { Buffer } = require('buffer');
 
 const TRUE = 'TRUE';
 const FALSE = 'FALSE';
 const NULL = 'NULL';
 const UNDEFINED = 'UNDEFINED';
 
-function coerce(collection           , obj     ) {
+function coerce(collection:Array<any>, obj: any) {
   switch (typeof obj) {
     case 'number':
     case 'boolean':
@@ -89,7 +90,7 @@ function coerce(collection           , obj     ) {
   }
 }
 
-function hashObject(obj     ) {
+function hashObject(obj: any) {
   switch (typeof obj) {
     case 'number':
       return obj.toString();
@@ -110,5 +111,5 @@ function hashObject(obj     ) {
   return JSON.stringify(collection);
 }
 
-module.exports.hash32 = (o    ) => hash32(hashObject(o));
-module.exports.hash64 = (o    ) => hash64(hashObject(o));
+module.exports.hash32 = (o:any) => hash32(hashObject(o));
+module.exports.hash64 = (o:any) => hash64(hashObject(o));

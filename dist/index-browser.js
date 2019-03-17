@@ -1,6 +1,7 @@
 //      
 
-const { hash64, hash32 } = require('farmhash');
+const { hash64, hash32 } = require('farmhash.wasm');
+const { Buffer } = require('buffer');
 
 const TRUE = 'TRUE';
 const FALSE = 'FALSE';

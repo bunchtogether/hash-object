@@ -4,6 +4,7 @@ const NodeObjectHash = require('node-object-hash');
 const hashObject = require('hash-object');
 const hashIt = require('hash-it').default;
 const bunchtogetherHashObject = require('../dist');
+const bunchtogetherHashObjectBrowser = require('../dist/index-browser.js');
 
 const {
   generate,
@@ -33,14 +34,16 @@ for(const [makeValue, name] of valueGenerators) {
   const [_nodeObjectHashTime, nodeObjectHashHeap] = testNodeObjectHash();
   const [_hashItTime, hashItHeap] = testHashIt();
   const [_bunchtogetherHashObjectTime, bunchtogetherHashObjectHeap] = testBunchtogetherHashObject();
+  const [_bunchtogetherHashObjectBrowserTime, bunchtogetherHashObjectBrowserHeap] = testBunchtogetherHashObjectBrowser();
 
   const hashObjectTime = _hashObjectTime - baselineTime;
   const nodeObjectHashTime = _nodeObjectHashTime - baselineTime;
   const hashItTime = _hashItTime - baselineTime;
   const bunchtogetherHashObjectTime = _bunchtogetherHashObjectTime - baselineTime;
+  const bunchtogetherHashObjectBrowserTime = _bunchtogetherHashObjectBrowserTime - baselineTime;
 
-  const minTime = Math.min(hashObjectTime, nodeObjectHashTime, hashItTime, bunchtogetherHashObjectTime);
-  const minHeap = Math.min(hashObjectHeap, nodeObjectHashHeap, hashItHeap, bunchtogetherHashObjectHeap);
+  const minTime = Math.min(hashObjectTime, nodeObjectHashTime, hashItTime, bunchtogetherHashObjectTime, bunchtogetherHashObjectBrowserTime);
+  const minHeap = Math.min(hashObjectHeap, nodeObjectHashHeap, hashItHeap, bunchtogetherHashObjectHeap, bunchtogetherHashObjectBrowserHeap);
 
   console.log(`\n\thash-object`); 
   const hashObjectRelativeTime = hashObjectTime / minTime - 1;
@@ -62,6 +65,11 @@ for(const [makeValue, name] of valueGenerators) {
   const bunchtogetherHashObjectRelativeHeap = bunchtogetherHashObjectHeap / minHeap - 1; 
   console.log(`\t\tTime: ${bunchtogetherHashObjectTime}ms (+${Math.round(10000 * bunchtogetherHashObjectRelativeTime) / 100}%)`); 
   console.log(`\t\tHeap: ${Math.round((bunchtogetherHashObjectHeap) / (1024 * 1024))}Mb (+${Math.round(10000 * bunchtogetherHashObjectRelativeHeap) / 100}%)`);
+  console.log(`\n\t@bunchtogether/object-hash (browser)`); 
+  const bunchtogetherHashObjectBrowserRelativeTime = bunchtogetherHashObjectBrowserTime / minTime - 1;
+  const bunchtogetherHashObjectBrowserRelativeHeap = bunchtogetherHashObjectBrowserHeap / minHeap - 1; 
+  console.log(`\t\tTime: ${bunchtogetherHashObjectBrowserTime}ms (+${Math.round(10000 * bunchtogetherHashObjectBrowserRelativeTime) / 100}%)`); 
+  console.log(`\t\tHeap: ${Math.round((bunchtogetherHashObjectBrowserHeap) / (1024 * 1024))}Mb (+${Math.round(10000 * bunchtogetherHashObjectBrowserRelativeHeap) / 100}%)`);
   console.log();
 
   function testBaseline() {
@@ -163,6 +171,27 @@ for(const [makeValue, name] of valueGenerators) {
     maxHeap = maxHeap > endHeap ? maxHeap : endHeap;
     return [Date.now() - start, maxHeap - startHeap];
   }
+
+  function testBunchtogetherHashObjectBrowser() {
+    hashIt(bunchtogetherHashObjectBrowser.hash64());
+    global.gc();
+    const startHeap = process.memoryUsage().heapUsed;
+    let maxHeap = startHeap;
+    const start = Date.now();
+    for (let i = 0; i < dataA.length; i++) {
+      const hashA = bunchtogetherHashObjectBrowser.hash64(dataA[i]);
+      const hashB = bunchtogetherHashObjectBrowser.hash64(dataB[i]);
+      expect(hashA).toEqual(hashB);
+      if (i % 100 === 0) {
+        const heap = process.memoryUsage().heapUsed;
+        maxHeap = maxHeap > heap ? maxHeap : heap;
+      }
+    }
+    const endHeap = process.memoryUsage().heapUsed;
+    maxHeap = maxHeap > endHeap ? maxHeap : endHeap;
+    return [Date.now() - start, maxHeap - startHeap];
+  }
+
 }
 
 

@@ -1,6 +1,6 @@
 # Hash Object
 
-Performance object hashing.
+Performance object hashing. Supports native maps, sets, classes, and typed arrays.
 
 ```js
 const { hash64, hash32 } = require('@bunchtogether/hash-object');

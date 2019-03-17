@@ -35,6 +35,7 @@ function coerce(collection:Array<any>, obj: any) {
     case 'Boolean':
       collection.push(obj.valueOf());
       return;
+    case 'ArrayBuffer':
     case 'Int8Array':
     case 'Uint8Array':
     case 'Uint8ClampedArray':

@@ -69,6 +69,7 @@
     "uuid": "^3.3.2"
   },
   "dependencies": {
+    "buffer": "^5.2.1",
     "farmhash": "^2.1.0",
     "farmhash.wasm": "^0.1.0"
   }
