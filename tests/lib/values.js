@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const { cloneDeepWith } = require('lodash');
 
-const generatePrimitive = () => {
+const generatePrimitive = module.exports.generatePrimitive = () => {
   switch (Math.floor(Math.random() * 8)) {
     case 0:
       return null;
@@ -25,10 +25,10 @@ const generatePrimitive = () => {
   throw new Error('Incorrect number of cases');
 };
 
-const generateNativeObject = () => {
+const generateNativeObject = module.exports.generateNativeObject = () => {
   switch (Math.floor(Math.random() * 4)) {
     case 0:
-      return new Date();
+      return new Date(Math.round(Date.now() * Math.random()));
     case 1:
       return new String(uuid.v4()); // eslint-disable-line no-new-wrappers
     case 2:
@@ -41,7 +41,7 @@ const generateNativeObject = () => {
   throw new Error('Incorrect number of cases');
 };
 
-const generateObject = (depth = 0) => {
+const generateObject = module.exports.generateObject = (depth = 0) => {
   const propertyCount = Math.ceil(Math.random() * 4);
   const o = {};
   for (let i = 0; i < propertyCount; i += 1) {
@@ -50,7 +50,7 @@ const generateObject = (depth = 0) => {
   return o;
 };
 
-const generateArray = (depth = 0) => {
+const generateArray = module.exports.generateArray = (depth = 0) => {
   const o = [];
   const length = Math.ceil(Math.random() * 20);
   for (let i = 0; i < length; i += 1) {
@@ -59,7 +59,7 @@ const generateArray = (depth = 0) => {
   return o;
 };
 
-const generateMap = (depth = 0) => {
+const generateMap = module.exports.generateMap = (depth = 0) => {
   const propertyCount = Math.ceil(Math.random() * 4);
   const o = new Map();
   for (let i = 0; i < propertyCount; i += 1) {
@@ -68,7 +68,7 @@ const generateMap = (depth = 0) => {
   return o;
 };
 
-const generateSet = (depth = 0) => {
+const generateSet = module.exports.generateSet = (depth = 0) => {
   const o = new Set();
   const length = Math.ceil(Math.random() * 20);
   for (let i = 0; i < length; i += 1) {
@@ -77,7 +77,7 @@ const generateSet = (depth = 0) => {
   return o;
 };
 
-const generateTypedArray = () => {
+const generateTypedArray = module.exports.generateTypedArray = () => {
   const length = Math.ceil(Math.random() * 128);
   switch (Math.floor(Math.random() * 11)) {
     case 0:
@@ -119,7 +119,7 @@ class ExampleClass {
   }
 }
 
-const generateClassInstance = (depth = 0) => new ExampleClass(generate(depth + 1), generate(depth + 1), generate(depth + 1));
+const generateClassInstance = module.exports.generateClassInstance = (depth = 0) => new ExampleClass(generate(depth + 1), generate(depth + 1), generate(depth + 1));
 
 const cloneDeep = module.exports.cloneDeep = (o) => cloneDeepWith(o, (value) => { // eslint-disable-line consistent-return
   if (value instanceof ExampleClass) {
@@ -132,9 +132,9 @@ const generate = module.exports.generate = (depth = 0) => {
   if (depth > 3) {
     return generatePrimitive();
   }
-  switch (Math.floor(Math.random() * 8)) {
+  switch (Math.floor(Math.random() * 5)) {
     case 0:
-      return generateClassInstance(depth);
+      return generateTypedArray();
     case 1:
       return generatePrimitive();
     case 2:
@@ -148,7 +148,28 @@ const generate = module.exports.generate = (depth = 0) => {
     case 6:
       return generateSet(depth);
     case 7:
-      return generateTypedArray();
+      return generateClassInstance(depth);
+    default:
+      break;
+  }
+  throw new Error('Incorrect number of cases');
+};
+
+module.exports.generateSimpleValues = () => {
+  const length = Math.ceil(Math.random() * 20);
+  switch (Math.floor(Math.random() * 2)) {
+    case 0:
+      const a = []; // eslint-disable-line no-case-declarations
+      for (let i = 0; i < length; i += 1) {
+        a.push(generatePrimitive());
+      }
+      return a;
+    case 1:
+      const o = {}; // eslint-disable-line no-case-declarations
+      for (let i = 0; i < length; i += 1) {
+        o[uuid.v4()] = generatePrimitive();
+      }
+      return o;
     default:
       break;
   }

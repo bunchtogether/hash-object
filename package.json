@@ -1,7 +1,10 @@
 {
   "name": "@bunchtogether/hash-object",
-  "version": "2.1.0",
+  "version": "1.0.0",
   "main": "dist/index.js",
+  "browser": {
+    "dist/index.js": "dist/index-browser.js"
+  },
   "repository": "git@github.com:bunchtogether/hash-object",
   "author": "John Wehr <johnwehr@gmail.com>",
   "license": "MIT",
@@ -14,7 +17,7 @@
     "lint:js": "eslint -c ./.eslintrc --no-eslintrc --fix .",
     "lint:flow": "flow --show-all-errors",
     "coverage": "codecov",
-    "documentation": "documentation readme src/set.js --section='Set API' && documentation readme src/map.js --section='Map API'",
+    "documentation": "documentation readme src/index.js --section='API'",
     "start-pre-commit": "git stash -q --keep-index",
     "end-pre-commit": "git add -u && git stash pop -q",
     "benchmark": "yarn build; node --expose-gc tests/compare.js"
@@ -23,7 +26,6 @@
     "lint",
     "start-pre-commit",
     "build",
-    "documentation",
     "end-pre-commit"
   ],
   "jest": {
@@ -53,12 +55,12 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "expect": "^24.5.0",
-    "faker": "^4.1.0",
     "flow-bin": "^0.94.0",
     "flow-copy-source": "^2.0.3",
     "flow-remove-types": "^1.2.3",
     "flow-typed": "^2.5.1",
     "hash-it": "^4.0.4",
+    "hash-object": "^0.1.7",
     "jest": "^24.5.0",
     "jest-flow-transform": "^1.0.1",
     "lodash": "^4.17.11",
@@ -68,7 +70,6 @@
   },
   "dependencies": {
     "farmhash": "^2.1.0",
-    "hash-object": "^0.1.7",
-    "imurmurhash": "^0.1.4"
+    "farmhash.wasm": "^0.1.0"
   }
 }

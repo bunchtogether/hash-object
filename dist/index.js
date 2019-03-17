@@ -1,46 +1,39 @@
 //      
 
-const farmhash = require('farmhash');
+const { hash64, hash32 } = require('farmhash');
 
-const TRUE = 94590;
-const FALSE = 94591;
-const NULL = 94592;
-const UNDEFINED = 94593;
-const UNKNOWN = 94594;
+const TRUE = 'TRUE';
+const FALSE = 'FALSE';
+const NULL = 'NULL';
+const UNDEFINED = 'UNDEFINED';
 
-function coerce(container           , obj     ) {
-  if (typeof obj === 'number') {
-    container.push(obj);
-    return;
-  }
-  if (typeof obj === 'boolean') {
-    container.push(obj ? TRUE : FALSE);
-    return;
-  }
-  if (typeof obj === 'undefined') {
-    container.push(UNDEFINED);
-    return;
+function coerce(collection           , obj     ) {
+  switch (typeof obj) {
+    case 'number':
+    case 'boolean':
+    case 'undefined':
+    case 'string':
+      collection.push(obj);
+      return;
+    default:
+      break;
   }
   if (obj === null) {
-    container.push(NULL);
-    return;
-  }
-  if (typeof obj === 'string') {
-    container.push(farmhash.hash32(obj));
+    collection.push(null);
     return;
   }
   switch (obj.constructor && obj.constructor.name) {
     case 'Date':
-      container.push(obj.getTime());
+      collection.push(obj);
       return;
     case 'String':
-      container.push(farmhash.hash32(obj.valueOf()));
+      collection.push(obj.valueOf());
       return;
     case 'Number':
-      container.push(obj.valueOf());
+      collection.push(obj.valueOf());
       return;
     case 'Boolean':
-      container.push(obj.valueOf() ? TRUE : FALSE);
+      collection.push(obj.valueOf());
       return;
     case 'Int8Array':
     case 'Uint8Array':
@@ -51,61 +44,70 @@ function coerce(container           , obj     ) {
     case 'Uint32Array':
     case 'Float32Array':
     case 'Float64Array':
+      collection.push(hash64(Buffer.from(obj)));
+      return;
     case 'Buffer':
-      for (let i = 0; i < obj.length; i++) {
-        container.push(obj[i]);
-      }
+      collection.push(hash64(obj));
       return;
     case 'Array':
       for (let i = 0; i < obj.length; i++) {
-        coerce(container, obj[i]);
+        coerce(collection, obj[i]);
       }
       return;
     case 'Object':
       const objectKeys = Object.keys(obj); // eslint-disable-line no-case-declarations
       objectKeys.sort();
       for (let i = 0; i < objectKeys.length; i++) {
-        container.push(farmhash.hash32(objectKeys[i]));
-        coerce(container, obj[objectKeys[i]]);
+        collection.push(objectKeys[i]);
+        coerce(collection, obj[objectKeys[i]]);
       }
       return;
     case 'Map':
       const mapKeys = [...obj.keys()]; // eslint-disable-line no-case-declarations
       mapKeys.sort();
       for (let i = 0; i < mapKeys.length; i++) {
-        container.push(hashObject(mapKeys[i]));
-        coerce(container, obj.get(mapKeys[i]));
+        coerce(collection, mapKeys[i]);
+        coerce(collection, obj.get(mapKeys[i]));
       }
       return;
     case 'Set':
       const setValues = [...obj].map(hashObject); // eslint-disable-line no-case-declarations
       setValues.sort();
       for (let i = 0; i < setValues.length; i++) {
-        container.push(setValues[i]);
+        collection.push(setValues[i]);
       }
       return;
     default:
-      container.push(UNKNOWN);
+      collection.push(obj.constructor && obj.constructor.name);
+      const unknownKeys = Object.keys(obj); // eslint-disable-line no-case-declarations
+      unknownKeys.sort();
+      for (let i = 0; i < unknownKeys.length; i++) {
+        collection.push(unknownKeys[i]);
+        coerce(collection, obj[unknownKeys[i]]);
+      }
   }
 }
 
-const hashObject = module.exports = function (obj     ) {
-  if (typeof obj === 'number') {
-    return obj;
-  }
-  if (typeof obj === 'boolean') {
-    return obj ? TRUE : FALSE;
-  }
-  if (typeof obj === 'undefined') {
-    return UNDEFINED;
+function hashObject(obj     ) {
+  switch (typeof obj) {
+    case 'number':
+      return obj.toString();
+    case 'boolean':
+      return obj ? TRUE : FALSE;
+    case 'undefined':
+      return UNDEFINED;
+    case 'string':
+      return obj;
+    default:
+      break;
   }
   if (obj === null) {
     return NULL;
   }
-  if (typeof obj === 'string') {
-    return farmhash.hash32(obj);
-  }
-  const container = [];
-  coerce(container, obj);
-  return farmhash.hash32(Buffer.from(container));
-};
+  const collection = [];
+  coerce(collection, obj);
+  return JSON.stringify(collection);
+}
+
+module.exports.hash32 = (o    ) => hash32(hashObject(o));
+module.exports.hash64 = (o    ) => hash64(hashObject(o));
