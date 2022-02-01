@@ -1,10 +1,10 @@
 // @flow
 
-const expect = require('expect');
-const { hash64 } = require('../src');
-const { isEqual } = require('lodash');
+import expect from 'expect';
+import { isEqual } from 'lodash';
+import { hash64 } from '../src';
 
-const {
+import {
   generate,
   generateSimpleValues,
   generatePrimitive,
@@ -16,7 +16,7 @@ const {
   generateTypedArray,
   generateClassInstance,
   cloneDeep,
-} = require('./lib/values');
+} from './lib/values';
 
 describe('Check for object equivalence', () => {
   test('Hash complex values', () => {

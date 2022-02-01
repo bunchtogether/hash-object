@@ -1,11 +1,11 @@
-const uuid = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 
-const generatePrimitive = module.exports.generatePrimitive = () => {
+export const generatePrimitive = () => {
   switch (Math.floor(Math.random() * 8)) {
     case 0:
       return null;
     case 1:
-      return uuid.v4();
+      return uuidv4();
     case 2:
       return Math.random() * Number.MAX_SAFE_INTEGER;
     case 3:
@@ -24,12 +24,12 @@ const generatePrimitive = module.exports.generatePrimitive = () => {
   throw new Error('Incorrect number of cases');
 };
 
-const generateNativeObject = module.exports.generateNativeObject = () => {
+export const generateNativeObject = () => {
   switch (Math.floor(Math.random() * 4)) {
     case 0:
       return new Date(Math.round(Date.now() * Math.random()));
     case 1:
-      return new String(uuid.v4()); // eslint-disable-line no-new-wrappers
+      return new String(uuidv4()); // eslint-disable-line no-new-wrappers
     case 2:
       return new Number(Math.random() * Number.MAX_SAFE_INTEGER - Number.MAX_SAFE_INTEGER / 2); // eslint-disable-line no-new-wrappers
     case 3:
@@ -40,16 +40,16 @@ const generateNativeObject = module.exports.generateNativeObject = () => {
   throw new Error('Incorrect number of cases');
 };
 
-const generateObject = module.exports.generateObject = (depth = 0) => {
+export const generateObject = (depth = 0) => {
   const propertyCount = Math.ceil(Math.random() * 10);
   const o = {};
   for (let i = 0; i < propertyCount; i += 1) {
-    o[uuid.v4()] = generate(depth + 1);
+    o[uuidv4()] = generate(depth + 1);
   }
   return o;
 };
 
-const generateArray = module.exports.generateArray = (depth = 0) => {
+export const generateArray = (depth = 0) => {
   const o = [];
   const length = Math.ceil(Math.random() * 20);
   for (let i = 0; i < length; i += 1) {
@@ -58,7 +58,7 @@ const generateArray = module.exports.generateArray = (depth = 0) => {
   return o;
 };
 
-const generateTypedArray = module.exports.generateTypedArray = () => {
+export const generateTypedArray = () => {
   const length = Math.ceil(Math.random() * 128);
   switch (Math.floor(Math.random() * 11)) {
     case 0:
@@ -89,7 +89,7 @@ const generateTypedArray = module.exports.generateTypedArray = () => {
   throw new Error('Incorrect number of cases');
 };
 
-const generate = module.exports.generate = (depth = 0) => {
+export const generate = (depth = 0) => {
   if (depth > 2) {
     return generatePrimitive();
   }
@@ -110,7 +110,7 @@ const generate = module.exports.generate = (depth = 0) => {
   throw new Error('Incorrect number of cases');
 };
 
-module.exports.generateSimpleValues = () => {
+export const generateSimpleValues = () => {
   const length = Math.ceil(Math.random() * 20);
   switch (Math.floor(Math.random() * 2)) {
     case 0:
@@ -122,7 +122,7 @@ module.exports.generateSimpleValues = () => {
     case 1:
       const o = {}; // eslint-disable-line no-case-declarations
       for (let i = 0; i < length; i += 1) {
-        o[uuid.v4()] = generatePrimitive();
+        o[uuidv4()] = generatePrimitive();
       }
       return o;
     default:

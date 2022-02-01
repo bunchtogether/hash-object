@@ -1,12 +1,12 @@
-const uuid = require('uuid');
-const { cloneDeepWith } = require('lodash');
+import { v4 as uuidv4 } from 'uuid';
+import { cloneDeepWith } from 'lodash';
 
 const generatePrimitive = module.exports.generatePrimitive = () => {
   switch (Math.floor(Math.random() * 8)) {
     case 0:
       return null;
     case 1:
-      return uuid.v4();
+      return uuidv4();
     case 2:
       return Math.random() * Number.MAX_SAFE_INTEGER;
     case 3:
@@ -30,7 +30,7 @@ const generateNativeObject = module.exports.generateNativeObject = () => {
     case 0:
       return new Date(Math.round(Date.now() * Math.random()));
     case 1:
-      return new String(uuid.v4()); // eslint-disable-line no-new-wrappers
+      return new String(uuidv4()); // eslint-disable-line no-new-wrappers
     case 2:
       return new Number(Math.random() * Number.MAX_SAFE_INTEGER - Number.MAX_SAFE_INTEGER / 2); // eslint-disable-line no-new-wrappers
     case 3:
@@ -45,7 +45,7 @@ const generateObject = module.exports.generateObject = (depth = 0) => {
   const propertyCount = Math.ceil(Math.random() * 5);
   const o = {};
   for (let i = 0; i < propertyCount; i += 1) {
-    o[uuid.v4()] = generate(depth + 1);
+    o[uuidv4()] = generate(depth + 1);
   }
   return o;
 };
@@ -167,7 +167,7 @@ module.exports.generateSimpleValues = () => {
     case 1:
       const o = {}; // eslint-disable-line no-case-declarations
       for (let i = 0; i < length; i += 1) {
-        o[uuid.v4()] = generatePrimitive();
+        o[uuidv4()] = generatePrimitive();
       }
       return o;
     default:

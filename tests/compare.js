@@ -1,15 +1,15 @@
-const expect = require('expect');
-const uuid = require('uuid');
-const NodeObjectHash = require('node-object-hash');
-const hashObject = require('hash-object');
-const hashIt = require('hash-it');
-const bunchtogetherHashObject = require('../dist');
-const { cloneDeep } = require('lodash');
+import expect from 'expect';
+import { v4 as uuidv4 } from 'uuid';
+import NodeObjectHash from 'node-object-hash';
+import hashObject from 'hash-object';
+import hashIt from 'hash-it';
+import * as bunchtogetherHashObject from '../cjs';
+import cloneDeep from 'lodash/cloneDeep.js';
 
-const {
+import {
   generate,
-  generateSimpleValues,
-} = require('./lib/benchmark-values');
+  generateSimpleValues
+} from './lib/benchmark-values.js';
 
 const nodeObjectHash = NodeObjectHash({ sort: false, coerce: false });
 
@@ -27,7 +27,7 @@ for(const [makeValue, name] of valueGenerators) {
     dataA.push(makeValue());
   }
   dataA.forEach((x) => dataB.push(cloneDeep(x)));
-
+  
   const [baselineTime, baselineHeap] = testBaseline();
   const [_hashObjectTime, hashObjectHeap] = testHashObject();
   const [_nodeObjectHashTime, nodeObjectHashHeap] = testNodeObjectHash();
@@ -68,7 +68,7 @@ for(const [makeValue, name] of valueGenerators) {
     global.gc();
     const startHeap = process.memoryUsage().heapUsed;
     let maxHeap = startHeap;
-    const hashA = uuid.v4();
+    const hashA = uuidv4();
     const hashB = hashA.slice();
     const start = Date.now();
     for (let i = 0; i < dataA.length; i++) {
