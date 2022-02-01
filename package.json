@@ -1,6 +1,6 @@
 {
   "name": "@bunchtogether/hash-object",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "repository": "git@github.com:bunchtogether/hash-object",
   "author": "John Wehr <johnwehr@gmail.com>",
   "license": "MIT",
@@ -25,8 +25,6 @@
     "lint:flow": "flow --show-all-errors",
     "coverage": "codecov",
     "documentation": "documentation readme src/index.js --section='API'",
-    "start-pre-commit": "git stash -q --keep-index",
-    "end-pre-commit": "git add -u && git stash pop -q",
     "benchmark": "yarn build && cross-env BABEL_ENV=cjs babel ./tests --out-dir ./dist/tests && node --expose-gc ./dist/tests/compare.js && rm -rf ./dist/tests",
     "prepare": "husky install"
   },
