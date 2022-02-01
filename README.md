@@ -2,8 +2,6 @@
 
 [Hash Object](https://github.com/bunchtogether/hash-object) [![CircleCI](https://circleci.com/gh/bunchtogether/hash-object/tree/master.svg?style=svg)](https://circleci.com/gh/bunchtogether/hash-object/tree/master) [![npm version](https://badge.fury.io/js/%40bunchtogether%2Fhash-object.svg)](http://badge.fury.io/js/%40bunchtogether%2Fhash-object) [![codecov](https://codecov.io/gh/bunchtogether/hash-object/branch/master/graph/badge.svg)](https://codecov.io/gh/bunchtogether/hash-object)
 
-
-
 Performant object hashing. Supports native maps, sets, classes, and typed arrays.
 
 ```js
