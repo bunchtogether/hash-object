@@ -18,4 +18,5 @@ jobs:
 
       - run: yarn install
       - run: yarn test
+      - run: yarn benchmark
       - run: yarn coverage
