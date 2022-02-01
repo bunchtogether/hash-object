@@ -2,6 +2,7 @@
 
 .*/node_modules/documentation/*
 .*/dist/*
+.*/node_modules/resolve/.*
 
 [include]
 

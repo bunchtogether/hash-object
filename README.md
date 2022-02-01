@@ -22,45 +22,45 @@ const b = hash32([1,2,3]);
 
 [hash-object](https://www.npmjs.com/package/hash-object)
 
--   Time: 6538ms (+905.85%)
--   Heap: 126Mb (+4.88%)
+*   Time: 1244ms (+409.84%)
+*   Heap: 226Mb (+17.2%)
 
 [node-object-hash](https://www.npmjs.com/package/node-object-hash)
 
--   Time: 2486ms (+282.46%)
--   Heap: 120Mb (+0%)
+*   Time: 663ms (+171.72%)
+*   Heap: 220Mb (+13.86%)
 
 [hash-it](https://www.npmjs.com/package/hash-it)
 
--   Time: 2930ms (+350.77%)
--   Heap: 127Mb (+5.58%)
+*   Time: 927ms (+279.92%)
+*   Heap: 239Mb (+23.66%)
 
 [@bunchtogether/object-hash](https://www.npmjs.com/package/@bunchtogether/hash-object)
 
--   Time: 650ms (+0%)
--   Heap: 130Mb (+8.44%)
+*   Time: 244ms (+0%)
+*   Heap: 193Mb (+0%)
 
 ### Simple Values
 
 [hash-object](https://www.npmjs.com/package/hash-object)
 
--   Time: 227ms (+24.73%)
--   Heap: 146Mb (+0%)
+*   Time: 92ms (+8.24%)
+*   Heap: 195Mb (+3.81%)
 
 [node-object-hash](https://www.npmjs.com/package/node-object-hash)
 
--   Time: 262ms (+43.96%)
--   Heap: 151Mb (+3.55%)
+*   Time: 99ms (+16.47%)
+*   Heap: 196Mb (+4.41%)
 
 [hash-it](https://www.npmjs.com/package/hash-it)
 
--   Time: 331ms (+81.87%)
--   Heap: 155Mb (+6.25%)
+*   Time: 184ms (+116.47%)
+*   Heap: 219Mb (+16.42%)
 
 [@bunchtogether/object-hash](https://www.npmjs.com/package/@bunchtogether/hash-object)
 
--   Time: 182ms (+0%)
--   Heap: 152Mb (+4.29%)
+*   Time: 85ms (+0%)
+*   Heap: 188Mb (+0%)
 
 ## API
 

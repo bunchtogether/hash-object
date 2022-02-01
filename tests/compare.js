@@ -2,7 +2,7 @@ const expect = require('expect');
 const uuid = require('uuid');
 const NodeObjectHash = require('node-object-hash');
 const hashObject = require('hash-object');
-const hashIt = require('hash-it').default;
+const hashIt = require('hash-it');
 const bunchtogetherHashObject = require('../dist');
 const { cloneDeep } = require('lodash');
 
